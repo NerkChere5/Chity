@@ -1,0 +1,1 @@
+import '../ServiceWorker/Client.js';
