@@ -1,0 +1,16 @@
+:host {
+  display: contents !important;
+}
+
+
+
+
+x-menu {
+  background: #020c22;
+  --sub_menu__background: #020c22;
+  color: #fff;
+  --color_underline: #707e9c;
+  z-index: 1;
+  border-bottom: 2px solid var(--color_underline);
+  --padding: 20px;
+}

@@ -1,0 +1,354 @@
+:host {
+  --margin: 5vw;
+  --padding: 10px;
+  
+  --arrow__transition_time: 0.3s;
+  --menu_container__mobile_width: 80%;
+  --sub_menu__max_width: 750px;
+  --sub_menu__transition_time: 0.5s;
+  --color_underline: #bfbfbf;
+  --sub_menu__background: inherit;
+}
+
+
+.body {
+  --_padding_menu_dropdown: 30px;
+  --_grid_flow: column;
+}
+
+
+
+
+* {
+  box-sizing: border-box;
+  user-select: none;
+}
+
+* [href] {
+  cursor: pointer;
+}
+
+
+:host {
+  background: #fff;
+  border-bottom: 2px solid var(--color_underline);
+  bottom: 0 !important;
+  display: block;
+  font: 14px 'Arial';
+  left: 0 !important;
+  padding: 0 !important;
+  position: fixed !important;
+  right: 0 !important;
+  top: 0 !important;
+  height: fit-content !important;
+}
+
+:host([hidden]) {
+  display: none !important;
+}
+
+
+[dropdownlist]::after {
+  background: url('./arrow.svg') center / cover no-repeat;
+  content: '';
+  display: inline-block;
+  height: 10px;
+  margin-left: 5px;
+  transition: transform var(--arrow__transition_time);
+  width: 10px;
+}
+
+
+.back,
+.burger {
+  cursor: pointer;
+  display: none;
+}
+
+
+.body {
+  align-items: center;
+  display: flex;
+  height: 100%;
+  justify-content: space-between;
+  margin-left: var(--margin);
+  margin-right: var(--margin);
+  background: inherit;
+}
+
+
+.dropdown {
+  background: inherit;
+  font-weight: 700;
+  padding: max(var(--_padding_menu_dropdown), var(--padding));
+}
+
+
+.dropdown_item {
+  font-weight: normal;
+  margin: 10px;
+}
+
+
+.logo {
+  overflow: hidden;
+  padding: var(--padding);
+}
+
+.logo img {
+  object-fit: cover;
+  max-height: 1cm;
+  max-width: 200px;
+}
+
+
+.menu_container {
+  align-content: start;
+  background: inherit;
+  display: grid;
+  grid-auto-flow: var(--_grid_flow);
+  grid-gap: 30px;
+  height: 100%;
+}
+
+
+.menu_item {
+  background: inherit;
+  height: 100%;
+  padding: var(--padding) 0;
+  position: relative;
+}
+
+.menu_item img {
+  max-height: 300px;
+  max-width: 200px;
+}
+
+
+.nav_list {
+  background: var(--sub_menu__background);
+  box-shadow: 0 5px 15px 0 #0002;
+  display: grid;
+  grid-auto-flow: var(--_grid_flow);
+  grid-gap: 10px;
+  opacity: 0;
+  overflow: auto;
+  padding: var(--padding);
+  position: absolute;
+  right: 0;
+  visibility: hidden;
+  z-index: 10;
+  /* border: 1px solid var(--color_underline); */
+}
+
+
+.title {
+  font-weight: 700;
+}
+
+
+
+
+@media (min-width: 750px /* var(--sub_menu__max_width) */) {
+  .dropdown:nth-child(n+3) {
+    border-left: 1px solid var(--color_underline);
+  }
+  
+  .dropdown_item:not(:first-of-type) {
+    margin-top: 20px;
+  }
+  
+  
+  .menu_item:hover [dropdownlist]::after {
+    transform: rotate(180deg);
+    transition: transform var(--arrow__transition_time);
+  }
+  
+  .menu_item:hover .nav_list {
+    opacity: 1;
+    top: 100%;
+    transition: all var(--sub_menu__transition_time);
+    visibility: visible;
+  }
+  
+  
+  .nav_list {
+    max-height: 90vh;
+    max-width: 90vw;
+  }
+  
+  
+  .overlay {
+    display: none;
+  }
+}
+
+
+@media (max-width: 749px /* calc(var(--sub_menu__max_width) - 1px) */) {
+  .back {
+    border-bottom: 1px solid var(--color_underline);
+    display: block;
+    padding: 20px max(var(--_padding_menu_dropdown), var(--padding));
+  }
+  
+  .back::before {
+    content: '';
+    width: 10px;
+    height: 10px;
+    background: url('./arrow.svg') center / cover no-repeat;
+    display: inline-block;
+    margin-right: 10px;
+    transform: rotate(90deg);
+  }
+  
+  
+  .body {
+    --_grid_flow: row;
+  }
+
+
+  .burger {
+    display: block;
+    height: 18px;
+    position: relative;
+    width: 30px;
+    z-index: 2;
+  }
+  
+  .burger span {
+    background: #000;
+    height: 2px;
+    left: 0;
+    position: absolute;
+    top: calc(50% - 1px);
+    transition: all 0.2s;
+    width: 100%;
+  }
+  
+  .burger span:first-child {
+    top: 0;
+  }
+  
+  .burger span:last-child {
+    bottom: 0;
+    top: auto;
+  }
+  
+  .burger[_active] span {
+    background: #fff;
+    transform: scale(0);
+  }
+  
+  .burger[_active] span:first-child {
+    top: calc(50% - 1px);
+    transform: rotate(-45deg);
+  }
+  
+  .burger[_active] span:last-child {
+    bottom: calc(50% - 1px);
+    transform: rotate(45deg);
+  }
+  
+  
+  .dropdown {
+    padding: 0;
+  }
+  
+  
+  .dropdown .title {
+    padding-bottom: 0 !important;
+  }
+  
+/*   .dropdown:not(:last-child) {
+    border-bottom: 1px solid var(--color_underline);
+  } */
+  
+  
+  .dropdown_item {
+    border-bottom: 1px solid var(--color_underline);
+    margin: 0;
+    padding: 20px calc(max(var(--_padding_menu_dropdown), var(--padding)) + 15px);
+  }
+  
+  
+  .menu_container {
+    bottom: 0;
+    box-shadow: 5px 0 15px -5px #0008;
+    grid-gap: 0;
+    height: 100%;
+    left: -100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    position: fixed;
+    transition: left var(--sub_menu__transition_time);
+    width: var(--menu_container__mobile_width);
+    z-index: 2;
+  }
+  
+  .menu_container[_active] {
+    left: 0;
+    transition: left var(--sub_menu__transition_time);
+  }
+  
+  
+  .menu_item {
+    border-bottom: 1px solid var(--color_underline);
+    padding: 0;
+  }
+  
+  .menu_item [dropdownlist]::after {
+    transform: rotate(-90deg);
+    transition: transform var(--arrow__transition_time);
+  }
+  
+  
+  .nav_list {
+    align-content: start;
+    bottom: 0;
+    grid-gap: 0;
+    height: 100%;
+    left: -100%;
+    opacity: 1;
+    padding: 0;
+    position: fixed;
+    right: 0;
+    top: 0;
+    transition: left var(--sub_menu__transition_time);
+    visibility: visible;
+    width: calc(var(--menu_container__mobile_width) + 1px);
+  }
+  
+  .nav_list[_active] {
+    left: 0;
+    transition: left var(--sub_menu__transition_time);
+  }
+  
+  
+  .overlay {
+    background: #0009;
+    bottom: 0;
+    height: 100vh;
+    left: 0;
+    opacity: 0;
+    pointer-events: none;
+    position: fixed;
+    right: 0;
+    top: 0;
+    transition: all 1s;
+    visibility: hidden;
+    width: 100vw;
+    z-index: 1;
+  }
+  
+  .overlay[_active] {
+    opacity: 1;
+    pointer-events: all;
+    transition: all 1s;
+    visibility: visible;
+  }
+  
+  
+  .title {
+    padding: calc(var(--padding) + 15px);
+  }
+}
