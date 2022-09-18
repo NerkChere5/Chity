@@ -1,3 +1,3 @@
 let options = {
-  cache_name: 'Chity_app__0.0.3',
+  cache_name: 'Chity_app__0.0.4',
 };

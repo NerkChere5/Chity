@@ -8,6 +8,7 @@
   --sub_menu__transition_time: 0.5s;
   --color_underline: #bfbfbf;
   --sub_menu__background: inherit;
+  --color_button: #fff;
 }
 
 
@@ -199,6 +200,7 @@
     display: inline-block;
     margin-right: 10px;
     transform: rotate(90deg);
+    color: var(--color_button);
   }
   
   
@@ -216,7 +218,7 @@
   }
   
   .burger span {
-    background: #000;
+    background: var(--color_button);
     height: 2px;
     left: 0;
     position: absolute;

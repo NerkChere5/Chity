@@ -32,10 +32,10 @@ class Menu extends Component {
     
     this.refrash();
     
+    this._root.addEventListener('pointerdown', this._on__back_down.bind(this));
+    this._root.addEventListener('pointerdown', this._on__link_down.bind(this));
     this._root.addEventListener('pointerdown', this._on__menu_item_nav_down.bind(this));
     this._root.addEventListener('pointerdown', this._on__toggle_down.bind(this));
-    this._root.addEventListener('pointerup', this._on__back_up.bind(this));
-    this._root.addEventListener('pointerup', this._on__link_up.bind(this));
     
     
     window.addEventListener('resize', () => {
@@ -63,14 +63,14 @@ class Menu extends Component {
   }
   
   
-  _on__back_up(event) {
+  _on__back_down(event) {
     if (!event.target.classList.contains('back')) return;
     
     event.target.closest('.nav_list').removeAttribute('_active');
   }
   
   
-  _on__link_up(event) {
+  _on__link_down(event) {
     let value = event.target.getAttribute('href');
     
     console.log(value)
@@ -92,16 +92,6 @@ class Menu extends Component {
       if (this._menu_items[key].type == 'logo') this._push_logo(key);
       else if (this._menu_items[key].type == 'header') this._push_header(key);
     }
-  
-  
-  
-    // for (let key in this._menu_items) {
-    //   let item = this._menu_items[key];
-      
-    //   if (item.type == 'header') this._push_header(key);
-    //   else if (item.type == 'logo') this._push_logo(key);
-    //   else if (item.type == 'group') this._items_groups.push(key);
-    // }
   }
   
   
@@ -116,22 +106,19 @@ class Menu extends Component {
   
   
   _define__menu_items() {
-    let menu_items = this._root.querySelector('slot').assignedElements();
+    let menu_items_raw = this._root.querySelector('slot').assignedElements();
   
-    for (let item of menu_items) {
+    for (let menu_item_raw of menu_items_raw) {
       let item_menu = {
-        dropdownList: item.dataset.dropdownList ? true : false,
-        image: (item.dataset.image != undefined) ? item.dataset.image : false,
-        nameGroup: item.dataset.nameGroup,
-        // textPosition: item.dataset.textPosition,
-        title: item.dataset.title,
-        // type: item.dataset.type?.,
-        type: (item.dataset.type != undefined) ? item.dataset.type : 'header',
-        url: (item.dataset.url != undefined) ? item.dataset.url : '',
-        // url: item.dataset.url,
+        dropdownList: !!menu_item_raw.dataset.dropdownList,
+        image: menu_item_raw.dataset.image || false,
+        nameGroup: menu_item_raw.dataset.nameGroup,
+        title: menu_item_raw.dataset.title,
+        type: menu_item_raw.dataset.type || 'header',
+        url: menu_item_raw.dataset.url || '',
       }
   
-      this._menu_items[item.dataset.title] = item_menu;
+      this._menu_items[menu_item_raw.dataset.title] = item_menu;
     }
   }
   
