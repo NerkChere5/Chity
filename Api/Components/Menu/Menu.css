@@ -1,3 +1,10 @@
+@font-face {
+  font-family: 'Lato';
+  src: url(https://fonts.gstatic.com/s/lato/v23/S6uyw4BMUTPHjxAwXjeu.woff2) format('woff2');
+}
+
+
+
 :host {
   --margin: 5vw;
   --padding: 10px;
@@ -94,6 +101,7 @@
 .logo {
   overflow: hidden;
   padding: var(--padding);
+  font-family: 'Lato';
 }
 
 .logo img {
