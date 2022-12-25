@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+
+
+<html>
+  <head>
+    <title>Structure</title>
+    
+    <meta charset='utf-8'>
+    
+    <script type='module' src='./Structure.js'></script>
+  </head>
+  
+  <body>
+    <div>
+      <!-- <x_object>
+        <x_prop key='a'>1</x_prop>
+        <x_prop key='b'>2</x_prop>
+        
+        <x_array key='c'>
+          <x_value>1</x_value>
+          <x_value>2</x_value>
+          <x_value>3</x_value>
+        </x_array>
+        
+        <x_object key='d'>
+          <x_prop key='aa'>11</x_prop>
+          <x_prop key='bb'>22</x_prop>
+          
+          <x_array key='cc'>
+            <x_array>
+              <x_value>11</x_value>
+            </x_array>
+            <x_array>
+              <x_value>22</x_value>
+            </x_array>
+            <x_array>
+              <x_value>33</x_value>
+            </x_array>
+          </x_array>
+          
+          <x_object key='dd'>
+            <x_value key='aaa'>111</x_value>
+          </x_object>
+        </x_object>
+      </x_object> -->
+      
+      
+      <div class='Array' hidden>
+        <x-object>
+          <div key='caption'>Logo</div>
+          <div key='picture'></div>
+          <div key='type'>menu__logo</div>
+        </x-object>
+       
+         <x-object>
+          <div key='caption'>Главная</div>
+          <div key='picture'></div>
+          <div key='type'>menu__item</div>
+          <div key='url'>/</div>
+        </x-object>
+        
+        <x-object>
+          <div key='caption'>Новости</div>
+          <div key='picture'></div>
+          <div key='type'>menu__item</div>
+          <div key='url'>/new</div>
+        </x-object>
+        
+        <x-object>
+          <div key='caption'>Товары</div>
+          <div key='picture'></div>
+          <div key='type'>menu__item</div>
+          <div key='categories'>
+            <x-object>
+              <div key='caption'>Компьютеры</div>
+              <div key='items'>
+                <x-object>
+                  <div key='caption'>ПК</div>
+                  <div key='picture'></div>
+                  <div key='type'>menu__category_item</div>
+                  <div key='url'>#</div>
+                </x-object>
+                <x-object>
+                  <div key='caption'>Ноутбуки</div>
+                  <div key='picture'></div>
+                  <div key='type'>menu__category_item</div>
+                  <div key='url'>#</div>
+                </x-object>
+              </div>
+              <div key='picture'></div>
+              <div key='type'>menu__category</div>
+            </x-object>
+            <x-object>
+              <div key='caption'>Телефоны</div>
+              <div key='items'>
+                <x-object>
+                  <div key='caption'>Мобильные</div>
+                  <div key='picture'></div>
+                  <div key='type'>menu__category_item</div>
+                  <div key='url'>#</div>
+                </x-object>
+                <x-object>
+                  <div key='caption'>Стационарные</div>
+                  <div key='picture'></div>
+                  <div key='type'>menu__category_item</div>
+                  <div key='url'>#</div>
+                </x-object>
+              </div>
+              <div key='picture'></div>
+              <div key='type'>menu__category</div>
+            </x-object>
+          </div>
+        </x-object>
+        <x-object>
+          <div key='caption'>User</div>
+          <div key='items'>
+            <x-object>
+              <div key='caption'>out</div>
+              <div key='url'>/logout</div>
+            </x-object>
+            <x-object>
+              <div key='caption'>settings</div>
+              <div key='url'>/setting</div>
+            </x-object>
+          </div>
+          <div key='picture'></div>
+          <div key='type'>menu__profile</div>
+        </x-object>
+      </div>
+      
+      
+      
+      
+      
+      
+     <!--  <x-object hidden>
+        <div key='a'>1</div>
+        <div key='b'>2</div>
+        
+        <div key='c'>
+          <div>1</div>
+          <div>2</div>
+          <div>3</div>
+        </div>
+        
+        <x-object key='d'>
+          <div key='aa'>11</div>
+          <div key='bb'>22</div>
+          
+          <div key='cc'>
+            <div>
+              <div>11</div>
+            </div>
+            <div>
+              <div>22</div>
+            </div>
+            <div>
+              <div>33</div>
+            </div>
+          </div>
+          
+          <x-object key='dd'>
+            <div key='aaa'>111</div>
+          </x-object>
+        </x-object>
+      </x-object>
+       -->
+      
+<!--       <x-object hidden>
+        {
+          "a": 1,
+          "b": 2,
+          "c": [1, 2, 3],
+          "d": {
+            "aa": 11,
+            "bb": 22,
+            "cc": [[1], [2], [3]],
+            "dd": {
+              "aaa": 111
+            }
+          }
+        }
+      </x-object> -->
+    </div>
+    
+    
+    <div>
+      <x-menu>
+        
+      </x-menu>
+    </div>
+  </body>
+</html>

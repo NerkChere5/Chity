@@ -16,26 +16,31 @@ class Menu extends Component {
   
   _burger = null;
   _items_groups = [];
-  _menu_container = null;
-  _menu_items = {};
+  _menu__container = null;
+  _menu_items__needDropdownList = [];
+  _menu_logo = null;
   _overlay = null;
   
   
+  menu__items = [];
   
   
   async _build() {
     await super._build();
     
     this._burger = this._body.querySelector('.burger');
-    this._menu_container = this._body.querySelector('.menu_container');
+    this._menu_container = this._body.querySelector('.container');
+    this._menu_logo = this._body.querySelector('.logo');
     this._overlay = this._body.querySelector('.overlay');
     
     this.refrash();
     
-    this._root.addEventListener('pointerdown', this._on__back_down.bind(this));
+    setTimeout(() => this._overlay.setAttribute('_animation', ''), 10);
+    
     this._root.addEventListener('pointerdown', this._on__link_down.bind(this));
     this._root.addEventListener('pointerdown', this._on__menu_item_nav_down.bind(this));
     this._root.addEventListener('pointerdown', this._on__toggle_down.bind(this));
+    this._root.addEventListener('pointerdown', this._on__back_down.bind(this));
     
     
     window.addEventListener('resize', () => {
@@ -58,148 +63,145 @@ class Menu extends Component {
   _on__menu_item_nav_down(event) {
     if (!event.target.hasAttribute('dropdownlist') || !this._burger.hasAttribute('_active')) return;
     
-    let nav_list = event.target.closest('.menu_item').querySelector('.nav_list');
-    nav_list.setAttribute('_active', '');
+    let nav_list = event.target.closest('.menu__item').querySelector('.menu__list');
+    nav_list.setAttribute('_active', true);
   }
   
   
   _on__back_down(event) {
     if (!event.target.classList.contains('back')) return;
     
-    event.target.closest('.nav_list').removeAttribute('_active');
+    event.target.closest('.menu__list').removeAttribute('_active');
   }
   
   
   _on__link_down(event) {
-    let value = event.target.getAttribute('href');
+    let value = event.target.dataset.url || event.target.parentElement.dataset.url;
     
-    console.log(value)
-    if (!value) return;
+    if (!value || event.target.classList.contains('menu__list')) return;
+    if (document.documentElement.clientWidth < 750 && (event.target.classList.contains('menu__item') || event.target.classList.contains('menu__item_title'))) return;
+    
     location = value;
     
     if (this._burger.hasAttribute('_active')) this._close__mobile_menu();
   }
   
   
-  
-  
-  _build_menu() {
-    for (let key in this._menu_items) {
-      if (this._menu_items[key].type == 'group') this._items_groups.push(key);
-    }
-    
-    for (let key in this._menu_items) {
-      if (this._menu_items[key].type == 'logo') this._push_logo(key);
-      else if (this._menu_items[key].type == 'header') this._push_header(key);
-    }
-  }
-  
-  
-  _define_image(url, href) {
-    let _image = this._template.querySelector('img').cloneNode(true);
-    
-    _image.setAttribute('src', url);
-    _image.setAttribute('href', href);
-    
-    return _image;
-  }
-  
-  
-  _define__menu_items() {
-    let menu_items_raw = this._root.querySelector('slot').assignedElements();
-  
-    for (let menu_item_raw of menu_items_raw) {
-      let item_menu = {
-        dropdownList: !!menu_item_raw.dataset.dropdownList,
-        image: menu_item_raw.dataset.image || false,
-        nameGroup: menu_item_raw.dataset.nameGroup,
-        title: menu_item_raw.dataset.title,
-        type: menu_item_raw.dataset.type || 'header',
-        url: menu_item_raw.dataset.url || '',
+  _menu__build(object) {
+    if (object.length) {
+      let items = [];
+      
+      for (let child of object) {
+        items.push(this._menu__build(child));
       }
+      
+      return items;
+    }
+    else {
+      let menu_item = this._template.querySelector('.' + object.type).cloneNode(true);
+      
+      for (let key in object) {
+        if (Array.isArray(object[key])) {
+          if (menu_item.classList.contains('menu__item')) {
+            let list = this._template.querySelector('.menu__list').cloneNode(true);
+            
+            list.append(...this._menu__build(object[key]));
+            menu_item.append(list);
+            
+            this._menu_items__needDropdownList.push(menu_item);
+          }
+          else {
+            menu_item.append(...this._menu__build(object[key]));
+          }
+        }
+        else {
+          this._menu_item__set(menu_item, key, object);
+        }
+      }
+      
+      return this._menu_item__check(menu_item);
+    }
+  }
   
-      this._menu_items[menu_item_raw.dataset.title] = item_menu;
+  
+  _menu_item__check(item) {
+    if (item.classList.contains('menu__logo')) {
+      this._menu_logo.append(item);
+    }
+    else if (item.classList.contains('menu__item')) {
+      this._menu_container.append(item);
+    }
+    
+    for (let menu_item__needDropdownList of this._menu_items__needDropdownList) {
+      let title = menu_item__needDropdownList.querySelector('.menu__item_title');
+      
+      if (!title.hasAttribute('dropdownlist')) {
+        title.setAttribute('dropdownlist', true);
+      }
+    }
+    
+    return item;
+  }
+  
+  
+  _menu_item__set(menu_item, key, object) {
+    if (key == 'caption') {
+      if (menu_item.classList.contains('menu__item') || (menu_item.classList.contains('menu__category') && !!object.caption)) {
+        let menu__item_title = this._template.querySelector('.menu__item_title').cloneNode(true);
+      
+        menu__item_title.textContent = object.caption;
+        menu_item.append(menu__item_title);
+      }
+      else {
+        menu_item.textContent = object.caption;
+      }
+    }
+    else if (key == 'type') return;
+    else if (key == 'picture' && !!object.picture) {
+      let image = this._template.querySelector('img').cloneNode(true);
+      
+      image.setAttribute('src', object.picture);
+      menu_item.append(image)
+    }
+    else {
+      menu_item.setAttribute('data-' + key, object[key]);
+    }
+  }
+  
+ 
+  _menu_items__defined(element) {
+    if (element?.tagName == 'X-OBJECT' && element?.children?.length) {
+      let item = {};
+      
+      for (let child of element.children) {
+        let key = child.getAttribute('key');
+        
+        if (!key) continue;
+        
+        item[key] = this._menu_items__defined(child);
+      }
+      
+      return item;
+    }
+    else if (element?.children?.length) {
+      let item = [];
+      
+      for (let child of element.children) {
+        item.push(this._menu_items__defined(child));
+      }
+      
+      return item;
+    }
+    else {
+      return element?.textContent;
     }
   }
   
   
   _open__mobile_menu() {
-    this._burger.setAttribute('_active', '');
-    this._menu_container.setAttribute('_active', '');
-    this._overlay.setAttribute('_active', '');
-  }
-  
-  
-  _push_group(header, menu_item) {
-    let nav_list = this._template.querySelector('.nav_list').cloneNode(true);
-    let groups = header.nameGroup.split(',');
-    
-    menu_item.append(nav_list);
-      
-    for (let group of groups) {
-      let dropdown = this._template.querySelector('.dropdown').cloneNode(true);
-      let title = this._template.querySelector('.title').cloneNode(true);
-      
-      if (group != '') {
-        title.textContent = group;
-      
-        dropdown.append(title);
-      }
-      // dropdown.textContent = group;
-      
-      for (let item of this._items_groups) {
-        let _group_item = this._menu_items[item];
-        if (_group_item.nameGroup.trim() != group.trim()) continue;
-        
-        let dropdown_item = this._template.querySelector('.dropdown_item').cloneNode(true);
-        
-        if (_group_item.image != false) {
-          dropdown_item.append(this._define_image(_group_item.image, _group_item.url));
-        }
-        else {
-          if (_group_item.url) dropdown_item.setAttribute('href', _group_item.url);
-          dropdown_item.textContent = _group_item.title;
-        }
-        
-        dropdown.append(dropdown_item);
-      }
-      
-      nav_list.append(dropdown);
-    }
-  }
-  
-  
-  _push_header(key) {
-    let menu_item = this._template.querySelector('.menu_item').cloneNode(true);
-    let header = this._menu_items[key];
-    let title = this._template.querySelector('.title').cloneNode(true);
-    
-    title.setAttribute('href', header.url);
-    
-    if (header.dropdownList == true) {
-      title.setAttribute('dropdownlist', header.dropdownList);
-    }
-    
-    title.textContent = key;
-    
-    menu_item.append(title);
-    this._menu_container.append(menu_item);
-    
-    if (header.dropdownList) this._push_group(header, menu_item);
-  }
-  
-  
-  _push_logo(key) {
-    let _logo_container = this._body.querySelector('.logo');
-    let header = this._menu_items[key];
-    
-    if (header.image != false) {
-      _logo_container.append(this._define_image(header.image, header.url));
-    }
-    else {
-      _logo_container.textContent = key;
-      _logo_container.setAttribute('href', header.url)
-    }
+    this._burger.setAttribute('_active', true);
+    this._menu_container.setAttribute('_active', true);
+    this._overlay.setAttribute('_active', true);
   }
   
   
@@ -208,10 +210,10 @@ class Menu extends Component {
     this._menu_container.removeAttribute('_active');
     this._overlay.removeAttribute('_active');
     
-    let nav_lists = this._body.querySelectorAll('.nav_list');
+    let menu__lists = this._body.querySelectorAll('.menu__list');
     
-    for (let nav_list of nav_lists) {
-      nav_list.removeAttribute('_active');
+    for (let menu__list of menu__lists) {
+      menu__list.removeAttribute('_active');
     }
   }
   
@@ -219,8 +221,9 @@ class Menu extends Component {
   
   
   refrash() {
-    this._define__menu_items();
-    this._build_menu();
+    this.menu__items = [];
+    this.menu__items = this._menu_items__defined(this);
+    this._menu__build(this.menu__items);
   }
 }
 

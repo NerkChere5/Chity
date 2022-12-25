@@ -1,0 +1,39 @@
+:host {
+}
+
+
+
+
+:host {
+  display: contents !important;
+}
+
+:host([hidden]) {
+  display: none !important;
+}
+
+/* :host([type='pentagon']) slot {
+  display: block;
+  position: relative;
+  width: 54px;
+  border-width: 50px 18px 0;
+  border-style: solid;
+  border-color: red transparent;
+}
+
+:host([type='pentagon']) slot:before {
+  content: "";
+  position: absolute;
+  height: 0;
+  width: 0;
+  top: -85px;
+  left: -18px;
+  border-width: 0 45px 35px;
+  border-style: solid;
+  border-color: transparent transparent red;
+} */
+
+
+/* .body {
+  display: block;
+} */

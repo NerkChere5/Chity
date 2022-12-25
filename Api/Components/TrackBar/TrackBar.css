@@ -1,0 +1,101 @@
+:host {
+  --background: #00f4;
+  --display: block;
+  --length: 128px;
+  --padding: 0px;
+  --rounding: 0px;
+  --width: 24px;
+  
+  --thumb__background: var(--background);
+  --thumb__length: var(--width);
+  --thumb__margin: 0px;
+  --thumb__rounding: 0px;
+  --thumb__width_virtual_1: 0px;
+  --thumb__width_virtual_2: 0px;
+  --track__background: transparent;
+}
+
+
+.body {
+  --_thumb__position: 0;
+}
+
+
+
+
+:host {
+  display: contents !important;
+}
+
+:host([hidden]) {
+  display: none !important;
+}
+
+:host([vertical]) .thumb {
+  height: var(--thumb__length);
+  left: 0;
+  top: calc(var(--_thumb__position) * 1px);
+  width: auto;
+}
+
+:host([vertical]) .thumb::after {
+  margin: 0 calc(-1 * var(--thumb__width_virtual_2)) 0 calc(-1 * var(--thumb__width_virtual_1));
+}
+
+:host([vertical]) .body {
+  height: var(--length);
+  width: var(--width);
+}
+
+
+.body {
+  background: var(--background);
+  border-radius: var(--rounding);
+  box-sizing: border-box;
+  display: var(--display);
+  height: var(--width);
+  padding: var(--padding);
+  position: relative;
+  width: var(--length);
+}
+
+.body[_init] .thumb {
+  height: auto;
+  left: 0;
+  top: 0;
+  width: auto;
+}
+
+
+.thumb {
+  background: var(--thumb__background);
+  border-radius: var(--thumb__rounding);
+  bottom: 0;
+  /* box-sizing: border-box; */
+  left: calc(var(--_thumb__position) * 1px);
+  margin: var(--thumb__margin);
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: var(--thumb__length);
+}
+
+.thumb::after {
+  bottom: 0;
+  content: '';
+  left: 0;
+  margin: calc(-1 * var(--thumb__width_virtual_1)) 0 calc(-1 * var(--thumb__width_virtual_2)) 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+
+.track {
+  background: var(--track__background);
+  border-radius: calc(var(--rounding) - var(--padding));
+  /* box-sizing: border-box; */
+  height: 100%;
+  position: relative;
+  width: 100%;
+}

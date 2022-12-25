@@ -1,0 +1,37 @@
+:host {
+  display: contents !important;
+}
+
+
+
+
+.body {
+  margin-top: 100px;
+}
+
+x-panel {
+  /* --scrollBar__background: #f004; */
+  /* --scrollBar__padding: 2px; */
+  /* --scrollBar__rounding: 10px; */
+  /* --scrollBar_thumb__background: #f004; */
+  /* --scrollBar_thumb__rounding: 10px; */
+
+
+  /* height: 150px; */
+  width: 60vw;
+/*   text-align: justify;
+  color: red;
+  font: 20px 'Arial'; */
+}
+
+
+.das {
+  display: inline-block;
+  height: 100px;
+  width: 100px;
+  border: 1px solid #000;
+}
+
+.a {
+  width: max-content;
+}
