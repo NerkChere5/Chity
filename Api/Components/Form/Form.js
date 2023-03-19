@@ -24,9 +24,9 @@ export class Form extends Component {
 
     async _build() {
         await super._build();
-        
+
         this._edits = this._shadow.querySelectorAll('x-edit');
-        
+
         this._shadow.addEventListener('pointerdown', this._on_pointerDown.bind(this));
         
         this._auth = new Auth();
