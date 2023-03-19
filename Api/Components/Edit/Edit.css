@@ -1,0 +1,144 @@
+:host {
+    --color_default: #aaa;
+    --color_active: green;
+    --line_width: 2px;
+    --font: 20px 'Arial';
+
+    font: var(--font) !important;
+    width: 500px;
+}
+
+
+
+
+.body {
+    box-sizing: border-box;
+    display: grid;
+    height: 100%;
+    grid-template: 1 / 2;
+    padding-top: 20px;
+    width: 100%;
+}
+
+
+.input {
+    border: none;
+    font: var(--font);
+    grid-area: 1 / 1 / 1 / 1;
+    outline: none;
+    padding: 5px 20px 5px 0px;
+}
+
+:host([show]) .input {
+    padding-right: 40px;
+}
+
+
+.line {
+    background: var(--color_active);
+    height: var(--line_width) !important;
+    grid-area: 2 / 1 / 2 / 1 !important;
+    transition: 0.4s ease-in-out;
+    transition-property: width;
+    width: 0%;
+}
+
+:host([_active]) .line {
+    width: 100%;
+}
+
+
+.line_error {
+    background: #c80000;
+    height: var(--line_width) !important;
+    grid-area: 2 / 1 / 2 / 1 !important;
+    width: 0%;
+}
+
+:host([_status='false']) .line_error {
+    width: 100%;
+    transition: width 0.4s ease-in-out;
+}
+
+
+.line_background {
+    background: var(--color_default);
+    grid-area: 2 / 1 / 2 / 1 !important;
+    height: var(--line_width) !important;
+    width: 100%;
+}
+
+
+.placeholder {
+    color: var(--color_default);
+    grid-area: 1 / 1 / 1 / 1;
+    padding: 5px 10px;
+    padding-left: 0px;
+    pointer-events: none;
+    transition-property: margin-top, font-size;
+    transition: 0.2s ease-in-out;
+}
+
+:host([_active]) .placeholder {
+    color: var(--color_active);
+    font-size: 14px;
+    margin-top: -20px;
+}
+
+
+.status {
+    grid-area: 1 / 1 / 1 / 1;
+    pointer-events: none;
+}
+
+.status::after {
+    left: 97%;
+    font-size: 16px;
+    position: relative;
+    top: 10%;
+}
+
+:host([_status='false']) .status::after {
+    color: #c80000;
+    content: '\26A0';
+}
+
+:host([_status='true']) .status::after {
+    color: #57b846;
+    content: '\2611';
+}
+
+
+.show_button {
+    display: none;
+}
+
+:host([show_button]) .show_button {
+    color: var(--color_default);
+    cursor: pointer;
+    display: block;
+    grid-area: 1 / 1 / 1 / 1;
+    height: 15px;
+    left: 92%;
+    position: relative;
+    top: 27%;
+    transform: scale(0.8);
+    width: 24px;
+}
+
+:host([show_button]) .show_button:hover {
+    color: #555;
+}
+
+:host([_show]) .show_button {
+    color: #555;
+}
+
+
+.show_button__line_cross {
+    display: none;
+}
+
+:host([_show]) .show_button__line_cross {
+    display: block;
+}

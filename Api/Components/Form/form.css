@@ -1,0 +1,60 @@
+:host {
+    --background: #fff;
+
+
+    display: block;
+    font: 24px 'Arial';
+}
+
+
+
+
+.root {
+    align-items: center;
+    display: grid;
+    height: 100vh;
+    justify-content: center;
+    width: 100vw;
+}
+
+
+.body {
+    background: var(--background);
+    border-radius: 25px;
+    box-shadow: 10px 10px 20px 2px #73737370;
+    box-sizing: border-box;
+    display: grid;
+    grid-gap: 10px;
+    justify-items: center;
+    padding: 40px;
+}
+
+.title {
+    color: #aaad;
+    pointer-events: none;
+    position: relative;
+    top: 40%;
+    transition: all 400ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+
+.submit {
+    align-content: center;
+    background: green;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px 0 rgba(87,184,70,.5);
+    color: #ddd;
+    cursor: pointer;
+    display: grid;
+    justify-content: center;
+    margin-top: 10%;
+    padding: 10px;
+    width: 95%;
+}
+
+.submit:hover {
+    background: #f1b25f;
+    box-shadow: 0 10px 30px 0 rgb(241 178 95 / 50%);
+    color: #111;
+}
+

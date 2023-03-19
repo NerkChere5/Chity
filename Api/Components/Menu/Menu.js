@@ -81,7 +81,7 @@ class Menu extends Component {
     if (!value || event.target.classList.contains('menu__list')) return;
     if (document.documentElement.clientWidth < 750 && (event.target.classList.contains('menu__item') || event.target.classList.contains('menu__item_title'))) return;
     
-    location = value;
+    location += value;
     
     if (this._burger.hasAttribute('_active')) this._close__mobile_menu();
   }
