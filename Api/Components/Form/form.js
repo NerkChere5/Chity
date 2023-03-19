@@ -40,8 +40,8 @@ export class Form extends Component {
 
         if (status) this._logIn(this._edits[0]._value, this._edits[1]._value);
     }
-    
-    
+
+
     _check_validaty_edits() {
         let status_edit = 1;
 
@@ -53,8 +53,8 @@ export class Form extends Component {
 
         return !!status_edit;
     }
-    
-    
+
+
     async _logIn(name, password) {
         let result = await this._auth.logIn(name, password);
         
