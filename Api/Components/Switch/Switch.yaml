@@ -1,0 +1,61 @@
+Switch:
+    extends: Component
+    date: 20.08.2022
+    description: null
+
+
+    attributes:
+        - name: value
+            description: null
+
+        - name: vertical
+            description: null
+
+    parts:
+        - name: puck
+            description: null
+
+        - name: track
+            description: null
+
+    properties:
+        - name: _on
+            default: false
+            description: null
+
+        - name: disabled
+            default: false
+            description: null
+
+    methods:
+        - syntax: _build()
+            parameters: null
+            description: null
+
+        - syntax: _on_pointerDown()
+            parameters: null
+            description: null
+
+        - syntax: _on_transitionEnd(event)
+            parameters:
+                - name: event
+                    description: null
+            description: null
+
+        - syntax: get on()
+            return: this._on
+            description: null
+
+        - syntax: set on(value)
+            parameters:
+                - name: value
+                    description: null
+            description: null
+
+        - syntax: toggle()
+            parameters: null
+            description: null
+
+    events:
+        - name: toggle
+            description: null

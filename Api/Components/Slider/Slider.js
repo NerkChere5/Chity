@@ -7,11 +7,6 @@ import {Component} from '../Component.js';
 
 
 class Slider extends Component {
-  static url = import.meta.url;
-  
-  
-  
-  
   _delay = null;
   _item_num = null;
   _item_prev_num = null;
@@ -117,4 +112,7 @@ class Slider extends Component {
 }
 
 
-Slider.init();
+Slider.init({
+  css: `${import.meta.url}/../Slider.css`,
+  html: `${import.meta.url}/../Slider.html`,
+});

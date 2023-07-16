@@ -1,0 +1,100 @@
+@layer init {
+    :host {
+        --_padding_double: calc(var(--padding) * 2);
+
+        --_puck__length: var(--puck__length, calc(var(--width) - var(--_puck__margin_double) - var(--_padding_double)));
+        --_puck__margin_double: calc(var(--puck__margin) * 2);
+        --_puck__position: calc(var(--length) - var(--_puck__length) - var(--_puck__margin_double) - var(--_padding_double));
+
+
+        --length: 48px;
+        --padding: 4px;
+        --rounding: var(--length);
+        --transition: var(--transition_duration) var(--transition_function);
+        --transition_duration: 0.1s;
+        --transition_function: ease-in-out;
+        --width: calc(var(--length) / 2);
+
+        --puck__length: unset;
+        --puck__margin: 0px;
+    }
+
+
+
+
+    :host {
+        background: #ccc;
+        border-radius: var(--rounding) !important;
+        box-sizing: border-box !important;
+        display: block;
+        height: var(--width) !important;
+        padding: var(--padding) !important;
+        position: relative;
+        width: var(--length) !important;
+    }
+
+    :host([_transition]) {
+        transition: background var(--transition);
+    }
+
+    :host([on]) {
+        background: #0af;
+    }
+
+    :host([disabled]) {
+        background: #ddd;
+    }
+
+    :host([vertical]) {
+        height: var(--length) !important;
+        width: var(--width) !important;
+    }
+
+
+    .puck {
+        background: #fff;
+        border-radius: var(--_puck__length);
+        bottom: 0;
+        left: 0;
+        margin: var(--puck__margin) !important;
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: var(--_puck__length) !important;
+    }
+
+    :host([disabled]) .puck {
+        background: #f8f8f8;
+    }
+
+    :host([on]) .puck {
+        left: var(--_puck__position);
+    }
+
+    :host([_transition]) .puck {
+        transition: left var(--transition);
+    }
+
+    :host([vertical]) .puck {
+        height: var(--_puck__length);
+        top: var(--_puck__position);
+        width: auto;
+    }
+
+    :host([vertical][on]) .puck {
+        left: 0;
+        top: 0;
+    }
+
+    :host([vertical][_transition]) .puck {
+        transition: top var(--transition);
+    }
+
+
+    .track {
+        border-radius: calc(var(--rounding) - var(--padding));
+        height: 100% !important;
+        position: relative;
+        width: 100% !important;
+    }
+}

@@ -1,95 +1,81 @@
-:host {
-  --background: #00f4;
-  --display: block;
-  --padding: 4px;
-  
-  --scrollBar__background: var(--background);
-  --scrollBar__padding: 0px;
-  --scrollBar__rounding: 0px;
-  --scrollBar__width: 8px;
-  --scrollBar_thumb__background: var(--background);
-  --scrollBar_thumb__length_min: 32px;
-  --scrollBar_thumb__rounding: 0px;
-}
+@layer init {
+    :host {
+        --_scrollBar_x_puck__length: 80;
+        --_scrollBar_y_puck__length: 0;
 
 
-.body {
-  --_scrollBar_thumb__length: 0;
-}
+        --gap: 0;
+        --scrollBar__width: 8px;
+        --scrollBar_puck__length_min: 20;
+    }
 
 
 
 
-:host {
-  display: contents !important;
-}
-
-:host([hidden]) {
-  display: none !important;
-}
+    :host {
+        display: block;
+        position: relative;
+    }
 
 
-x-trackBar {
-  --background: var(--scrollBar__background);
-  --display: none;
-  --length: auto;
-  --padding: var(--scrollBar__padding);
-  --rounding: var(--scrollBar__rounding);
-  --width: auto;
-  
-  --thumb__background: var(--scrollBar_thumb__background);
-  --thumb__length: max(var(--scrollBar_thumb__length_min), var(--_scrollBar_thumb__length) * 1%);
-  --thumb__rounding: var(--scrollBar_thumb__rounding);
-  --thumb__width_virtual_1: 4px;
-  --thumb__width_virtual_2: 4px;
-  --track__background: transparent;
-}
+    .body {
+        display: grid;
+        gap: var(--gap);
+        height: 100%;
+        width: 100%;
+    }
+
+    :host([_scroll_x]) .body {
+        grid-template: auto var(--scrollBar__width) / auto;
+    }
+
+    :host([_scroll_y]) .body {
+        grid-template: auto / auto var(--scrollBar__width);
+    }
+
+    :host([_scroll_x][_scroll_y]) .body {
+        grid-template: auto var(--scrollBar__width) / auto var(--scrollBar__width);
+    }
 
 
-.body {
-  background: var(--background);
-  display: var(--display);
-  height: inherit;
-  width: inherit;
-}
+    .display {
+        display: block !important;
+        overflow: auto !important;
+        position: relative !important;
+        scrollbar-width: none !important;
+    }
 
-.body[_scroll_x='true'] .grid {
-  grid-template: auto var(--scrollBar__width) / auto;
-}
-
-.body[_scroll_x='true'] .scrollBar_x {
-  --display: block;
-}
-
-.body[_scroll_y='true'] .grid {
-  grid-template: auto / auto var(--scrollBar__width);
-}
-
-.body[_scroll_y='true'] .scrollBar_y {
-  --display: block;
-}
-
-.body[_scroll_x='true'][_scroll_y='true'] .grid {
-  grid-template: auto var(--scrollBar__width) / auto var(--scrollBar__width);
-}
+    .display::-webkit-scrollbar {
+        height: 0 !important;
+        width: 0 !important;
+    }
 
 
-.grid {
-  display: grid;
-  height: 100%;
-  width: 100%;
-}
+    .scrollBar {
+        --length: auto !important;
+        --padding: 2px;
+        --rounding: var(--width);
+        --width: var(--scrollBar__width) !important;
+
+        background: transparent;
+        display: none !important;
+    }
 
 
-.screen {
-  display: block;
-  padding: var(--padding);
-  overflow: auto;
-  position: relative;
-  scrollbar-width: none;
-}
+    .scrollBar_x {
+        --puck__length: calc(max(var(--scrollBar_puck__length_min), var(--_scrollBar_x_puck__length)) * 1%);
+    }
 
-.screen::-webkit-scrollbar {
-  height: 0;
-  width: 0;
+    :host([_scroll_x]) .scrollBar_x {
+        display: block !important;
+    }
+
+
+    .scrollBar_y {
+        --puck__length: calc(max(var(--scrollBar_puck__length_min), var(--_scrollBar_y_puck__length)) * 1%);
+    }
+
+    :host([_scroll_y]) .scrollBar_y {
+        display: block !important;
+    }
 }

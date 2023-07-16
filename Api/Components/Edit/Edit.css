@@ -3,9 +3,22 @@
     --color_active: green;
     --line_width: 2px;
     --font: 20px 'Arial';
+    --lenght_edit: 250px;
 
     font: var(--font) !important;
-    width: 500px;
+}
+
+
+
+
+x-panel {
+    grid-area: 1 / 1 / 1 / 1;
+    width: var(--lenght_edit);
+}
+
+
+x-panel::part(puck) {
+    background: #2222;
 }
 
 
@@ -22,11 +35,11 @@
 
 
 .input {
-    border: none;
     font: var(--font);
-    grid-area: 1 / 1 / 1 / 1;
     outline: none;
     padding: 5px 20px 5px 0px;
+    width: var(--lenght_edit);
+    white-space:nowrap;
 }
 
 :host([show]) .input {

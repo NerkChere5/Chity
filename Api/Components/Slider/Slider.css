@@ -1,4 +1,4 @@
-.body {
+x_slider {
   all: inherit;
 }
 
@@ -96,32 +96,32 @@ x_point[_active] {
 }
 
 
-.body {
+x_slider {
   display: grid;
   grid-template: 100% / 100%;
 }
 
-.body > * {
+x_slider > * {
   grid-area: 1 / 1 / -1 / -1;
 }
 
-.body[_animation_dir] slot {
+x_slider[_animation_dir] slot {
   animation: var(--animation);
 }
 
-.body[_animation_dir='false'] slot:nth-of-type(1) {
+x_slider[_animation_dir='false'] slot:nth-of-type(1) {
   animation-name: var(--animation_out_0_name);
 }
 
-.body[_animation_dir='false'] slot:nth-of-type(2) {
+x_slider[_animation_dir='false'] slot:nth-of-type(2) {
   animation-name: var(--animation_in_0_name);
 }
 
-.body[_animation_dir='true'] slot:nth-of-type(1) {
+x_slider[_animation_dir='true'] slot:nth-of-type(1) {
   animation-name: var(--animation_out_1_name);
 }
 
-.body[_animation_dir='true'] slot:nth-of-type(2) {
+x_slider[_animation_dir='true'] slot:nth-of-type(2) {
   animation-name: var(--animation_in_1_name);
 }
 

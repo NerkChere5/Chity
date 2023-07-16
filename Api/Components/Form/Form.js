@@ -11,7 +11,7 @@ import {Auth} from '../../../Units/Modules/Auth/Auth.js';
 
 
 export class Form extends Component {
-    static url = import.meta.url;
+    static _url = import.meta.url;
 
 
 
@@ -28,11 +28,11 @@ export class Form extends Component {
         this._edits = this._shadow.querySelectorAll('x-edit');
 
         this._shadow.addEventListener('pointerdown', this._on_pointerDown.bind(this));
-        
+
         this._auth = new Auth();
     }
-    
-    
+
+
     _on_pointerDown(event) {
         if (!event.target.classList.contains('submit')) return;
 
@@ -46,7 +46,7 @@ export class Form extends Component {
         let status_edit = 1;
 
         for (let edit of this._edits) {
-            edit.toggle_value();
+            edit.toggle__status_value();
 
             status_edit *= edit._status_value;
         }
@@ -57,14 +57,14 @@ export class Form extends Component {
 
     async _logIn(name, password) {
         let result = await this._auth.logIn(name, password);
-        
+
         if (!result) return;
-        
+
         let event_logIn = new Event('logIn', {
           bubbles: true,
           composed: true,
         });
-        
+
         this.dispatchEvent(event_logIn);
     }
 }

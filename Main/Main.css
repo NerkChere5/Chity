@@ -1,4 +1,9 @@
 body {
-  margin: 0;
-  background: aquamarine;
+    margin: 0;
+    background: aquamarine;
+}
+
+
+x-form {
+    /* width: 100px; */
 }

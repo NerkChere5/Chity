@@ -1,24 +1,27 @@
 // 25.12.2020
 
 export class Component extends HTMLElement {
+    static _attribute_sync = 'sync';
+    static _css = '';
     static _dom_promise = null;
+    static _html = '';
+    static _tag_prefix = 'x';
+    static _url = '';
     static _url_css = '';
     static _url_html = '';
 
 
-    static attribute_sync = 'sync';
+    // static attribute_sync = 'sync';
     static css = true;
     static html = true;
-    static tag_prefix = 'x';
-    static template_selector = 'template';
-    static url = '';
+    // static tag_prefix = 'x';
+    // static url = '';
 
 
 
 
     _built = this._build();
     _shadow = null;
-    _template = null;
 
 
 
@@ -34,7 +37,7 @@ export class Component extends HTMLElement {
             let link = document.createElement('link');
             link.href = this._url_css;
             link.rel = 'stylesheet';
-            link.setAttribute(this.attribute_sync, true);
+            link.setAttribute(this._attribute_sync, '');
             template.content.prepend(link);
         }
 
@@ -44,24 +47,24 @@ export class Component extends HTMLElement {
 
 
 
-    // static attribute__get(element, attribute_name) {
-    //     let attribute_value = element.getAttribute(attribute_name);
+    static attribute__get(element, attribute_name) {
+        let attribute_value = element.getAttribute(attribute_name);
 
-    //     if (attribute_value == null) {
-    //         return null;
-    //     }
-    //     else if (attribute_value == '') {
-    //         return true;
-    //     }
+        if (attribute_value == null) {
+            return null;
+        }
+        else if (attribute_value == '') {
+            return true;
+        }
 
-    //     let attribute_value_num = parseFloat(attribute_value);
+        let attribute_value_num = parseFloat(attribute_value);
 
-    //     if (!isNaN(attribute_value_num)) {
-    //         attribute_value = attribute_value_num;
-    //     }
+        if (!isNaN(attribute_value_num)) {
+            attribute_value = attribute_value_num;
+        }
 
-    //     return attribute_value;
-    // }
+        return attribute_value;
+    }
 
 
     static attribute__set(element, attribute_name, attribute_value = null) {
@@ -77,11 +80,6 @@ export class Component extends HTMLElement {
 
         element.setAttribute(attribute_name, attribute_value);
     }
-
-
-    // static attribute_boolean__get(element, attribute_name) {
-    //     return element.hasAttribute(attribute_name);
-    // }
 
 
     static attribute_number__get(element, attribute_name) {
@@ -153,14 +151,14 @@ export class Component extends HTMLElement {
 
 
     static init() {
-        if (this.url) {
-            let url_part = this.url.replace(/\.\w+$/, '');
+        if (this._url) {
+            let url_part = this._url.replace(/\.\w+$/, '');
             this._url_css = this.css ? url_part + '.css' : '';
             this._url_html = this.html ? url_part + '.html' : '';
             this._dom_promise = this._dom_promise__create();
         }
 
-        let tag = this.tag_prefix + '-' + this.name.toLowerCase();
+        let tag = this._tag_prefix + '-' + this.name.toLowerCase();
         customElements.define(tag, this);
     }
 
@@ -285,65 +283,42 @@ export class Component extends HTMLElement {
 
 
     async _build() {
-        if (!this.constructor._dom_promise || this._shadow) return;
+        // if (!this.constructor._dom_promise || this._shadow) return;
+        if (!this.constructor._dom_promise || this._built) return;
 
         let dom = (await this.constructor._dom_promise).cloneNode(true);
 
-        this._shadow = this.attachShadow({mode: 'closed'});
-        this._template = dom.querySelector(this.constructor.template_selector)?.content || null;
-        this._shadow.append(dom);
+        if (this.constructor._url_css || this.constructor._url_html) {
+            this._shadow = this.attachShadow({mode: 'closed'});
+        }
 
-        let elements = this._shadow.querySelectorAll(`[${this.constructor.attribute_sync}]`);
+        let root = this._shadow || this;
+        root.append(dom);
+        await this._sync();
+    }
 
-        if (!elements.length) return;
+
+    async _sync() {
+        let root = this._shadow || this;
+        let elements_sync = root.querySelectorAll(`[${this.constructor._attribute_sync}]`);
+
+        if (!elements_sync.length) return;
 
         let promise_executor = (element, fulfill, reject) => {
             element.addEventListener('error', reject);
             element.addEventListener('load', fulfill);
         };
-        let promises = [...elements].map((element) => new Promise(promise_executor.bind(null, element)));
+        let promises = [...elements_sync].map((element) => new Promise(promise_executor.bind(null, element)));
 
         await Promise.allSettled(promises);
     }
 
 
-    // async _build() {
-    //     if (!this.constructor._dom_promise || this._shadow) {
-    //         await this._init();
-
-    //         return;
-    //     }
-
-    //     let dom = (await this.constructor._dom_promise).cloneNode(true);
-
-    //     this._shadow = this.attachShadow({mode: 'closed'});
-    //     this._template = dom.querySelector(this.constructor.template_selector)?.content || null;
-    //     this._shadow.append(dom);
-
-    //     let elements = this._shadow.querySelectorAll(`[${this.constructor.attribute_sync}]`);
-
-    //     if (elements.length) {
-    //         let promise_executor = (element, fulfill, reject) => {
-    //             element.addEventListener('error', reject);
-    //             element.addEventListener('load', fulfill);
-    //         };
-    //         let promises = [...elements].map((element) => new Promise(promise_executor.bind(null, element)));
-
-    //         await Promise.allSettled(promises);
-    //     }
-
-    //     await this._init();
-    // }
 
 
-    // async _init() {}
-
-
-
-
-    // attribute__get(attribute_name) {
-    //     return this.constructor.attribute__get(this, ...arguments);
-    // }
+    attribute__get(attribute_name) {
+        return this.constructor.attribute__get(this, ...arguments);
+    }
 
 
     attribute__set(attribute_name, attribute_value = null) {
