@@ -1,146 +1,199 @@
 import {Component} from '../Component.js';
-import '../Panel/Panel.js';
-
-
 
 
 export class Edit extends Component {
     static _url = import.meta.url;
 
 
-
-
+    _button_clear = null;
+    _button_oversee = null;
+    _cap_default = '•';
+    _cap_use = true;
     _input = null;
-    _placeholder = null;
-    _show_button = null;
-    _status_container = null;
-    _textPssword = '';
+    _oversee = false;
+    _root = null;
+    _selection_begin = 0;
+    _selection_end = 0;
+    _value = '';
+
+    cap = this._cap_default;
 
 
-
-
-    get _value() {
-        return this._input.textContent;
+    get value() {
+        return this._value;
     }
 
-    get _type() {
-        return this.getAttribute('type') || 'text';
+    set value(value) {
+        this._value = value + '';
+        // this._input.value = this._value;
+
+        // if (!this._cap_use) return;
+
+        // this.refresh();
+        this.value__display();
     }
-
-    get _status_value() {
-        return !!this._input.textContent;
-    }
-
-
 
 
     async _build() {
         await super._build();
 
+        this._button_clear = this._shadow.querySelector('.button_clear');
+        this._button_oversee = this._shadow.querySelector('.button_oversee');
         this._input = this._shadow.querySelector('.input');
-        this._placeholder = this._shadow.querySelector('.placeholder');
-        this._show_button = this._shadow.querySelector('.show_button');
-        this._status_container = this._shadow.querySelector('.status');
+        this._root = this._shadow.querySelector('.root');
 
+        this.addEventListener('pointerdown', this._on_pointerDown.bind(this));
+        this._button_oversee.addEventListener('pointerdown', this._button_oversee__on_pointerDown.bind(this));
+        this._button_clear.addEventListener('pointerdown', this._button_clear__on_pointerDown.bind(this));
         this._input.addEventListener('beforeinput', this._input__on_beforeInput.bind(this));
         this._input.addEventListener('blur', this._input__on_blur.bind(this));
         this._input.addEventListener('focus', this._input__on_focus.bind(this));
-        this._show_button.addEventListener('pointerdown', this._show_button__on_pointerDown.bind(this));
+        this._input.addEventListener('input', this._input__on_input.bind(this));
 
-        this.refrash();
+        this.attributes__apply();
     }
 
-
-    _decode_text() {
-        this._input.textContent = this._textPssword;
+    _button_clear__on_pointerDown() {
+        this._value = '';
+        this._input.value = '';
+        this.removeAttribute('_notEmpty');
     }
 
-
-    _encode_text() {
-        this._input.textContent = this._input.textContent.replace(/./ig, "•");
+    _button_oversee__on_pointerDown() {
+        this.oversee__toggle();
     }
 
-
-   _input__on_beforeInput(event) {
-        if (!event.data) return;
-
-        if (!this._input.textContent) {
-            this._textPssword = '';
-            console.log(1)
-        }
-
-        if (this._type == 'password') {
-            this._textPssword += event.data;
-
-            if (this.hasAttribute('_show')) return;
-
-            event.preventDefault();
-            this._input.textContent += '•';
-        }
-
-        if (this.hasAttribute('case')) {
-            event.preventDefault();
-
-            this._input.textContent += this._toCase(event.data);
-        }
-
-        if (this.hasAttribute('_status')) {
-            this.removeAttribute('_status');
-        }
+    _input__on_beforeInput() {
+        this._selection_begin = this._input.selectionStart;
+        this._selection_end = this._input.selectionEnd;
     }
-
 
     _input__on_blur() {
-        if (this._input.textContent) return;
+        this.removeAttribute('_focused');
+    }
 
-        this.removeAttribute('_active');
+    _input__on_focus() {
+        this.setAttribute('_focused', '');
+    }
+
+    _input__on_input(event) {
+        // let value_part_left = this._value.slice(0, this._selection_begin);
+        // let value_part_right = this._value.slice(this._selection_end);
+
+        // // console.log(this._selection_begin, this._selection_end, '|', this._input.selectionStart, '|', value_part_left, value_part_right)
+
+        // if (!event.data && this._selection_begin == this._selection_end) {
+        //     if (this._selection_begin == this._input.selectionStart) {
+        //         value_part_right = value_part_right.slice(1);
+        //     }
+        //     else {
+        //         value_part_left = value_part_left.slice(0, -1);
+        //     }
+        // }
+
+        // this._value = value_part_left + (event.data || '') + value_part_right;
+
+        // console.log(event.data, this._value)
+
+        this._value__change(event.data);
+
+        this.value__display();
+    }
+
+    _on_pointerDown() {
+        setTimeout(() => this.focus());
+    }
+
+    _value__change(data) {
+        let value_part_left = this._value.slice(0, this._selection_begin);
+        let value_part_right = this._value.slice(this._selection_end);
+
+        if (!data && this._selection_begin == this._selection_end) {
+            if (this._selection_begin == this._input.selectionStart) {
+                value_part_right = value_part_right.slice(1);
+            }
+            else {
+                value_part_left = value_part_left.slice(0, -1);
+            }
+        }
+
+        this._value = value_part_left + (data || '') + value_part_right;
+
+        // console.log(data, this._value)
     }
 
 
-     _input__on_focus() {
-        this.setAttribute('_active', '');
+    attributes__apply() {
+        this._cap_use = this.hasAttribute('cap');
+        this.cap = (this.getAttribute('cap') ?? this.cap)?.[0] || this._cap_default;
     }
 
+    blur() {
+        this._input.blur();
+    }
 
-    _show_button__on_pointerDown() {
-        if (this.hasAttribute('_show')) {
-            this.removeAttribute('_show');
-            this._encode_text();
+    focus() {
+        this._input.focus();
+    }
+
+    // refresh() {
+    //     // if (this._value) {
+    //     //     this.setAttribute('_notEmpty', '');
+    //     // }
+
+    //     this.attribute__set('_notEmpty', !!this._value);
+
+    //     if (!this._cap_use) return;
+
+    //     let selection_begin = this._input.selectionStart;
+    //     this._input.value = Array(this._value.length + 1).join(this.cap);
+    //     this._input.selectionEnd = selection_begin;
+    //     this._input.selectionStart = selection_begin;
+    // }
+
+    oversee__set(oversee) {
+        this._oversee = oversee;
+        this.attribute__set('_oversee', this._oversee);
+        this.value__display();
+
+        // if (this._oversee) {
+        //     this._input.value = this._value;
+        // }
+        // else {
+        //     this._input.value = Array(this._value.length + 1).join(this.cap);
+        // }
+    }
+
+    oversee__toggle() {
+        this.oversee__set(!this._oversee);
+    }
+
+    value__display() {
+        this.attribute__set('_notEmpty', !!this._value);
+
+        // this._input.value = '';
+
+        if (this._oversee || !this._cap_use) {
+            this._input.value = this._value;
         }
         else {
-            this.setAttribute('_show', '');
-            this._decode_text();
+            this._input.value = Array(this._value.length + 1).join(this.cap);
         }
 
-        this.refrash();
+        // this._input.selectionStart = this._selection_begin;
+        // this._input.selectionEnd = this._selection_begin;
     }
 
+    // value__hide() {
+    //     // if (!this._cap_use) return;
 
-    _toCase(string) {
-        if (this.getAttribute('case') == 'upper') {
-            return string.toUpperCase();
-        }
-        else {
-            return string.toLowerCase();
-        }
-    }
+    //     this._input.value = Array(this._value.length + 1).join(this.cap);
+    // }
 
-
-
-
-    toggle__status_value() {
-        this.setAttribute('_status', this._status_value);
-    }
-
-
-    refrash() {
-        this._placeholder.textContent = this.getAttribute('placeholder');
-
-        this._input.setAttribute('_type', this._type);
-    }
+    // value__show() {
+    //     this._input.value = this._value;
+    // }
 }
-
-
 
 
 Edit.init();

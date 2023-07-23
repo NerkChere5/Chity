@@ -1,0 +1,93 @@
+:host {
+    --color_active: green;
+    --color_default: #aaa;
+    --color_error: #c80000;
+    --height: 35px;
+    --line_width: 2px;
+    --placeholder_size_active: 14px;
+    --size_status: 16px;
+
+    font: 20px 'Arial';
+}
+
+
+.body {
+    box-sizing: border-box;
+    display: grid;
+    font: inherit;
+    grid-auto-columns: auto min-content;
+    grid-auto-flow: column;
+    grid-template-rows: var(--height) 10px;
+    height: 100%;
+    padding-top: 20px;
+    width: 100%;
+}
+
+.input {
+    font: inherit;
+    grid-area: 1 / 1 / 1 / 1;
+    width: 100%;
+}
+
+.line {
+    background: var(--color_active);
+    grid-area: 2 / 1 / 2 / 1;
+    height: var(--line_width);
+    transition-property: width;
+    transition: 0.4s ease-in-out;
+    width: 0%;
+}
+:host([_active]) .line {
+    width: 100%;
+}
+
+.line_error {
+    background: var(--color_error);
+    grid-area: 2 / 1 / 2 / 1;
+    height: var(--line_width);
+    width: 0%;
+}
+:host([_status='false']) .line_error {
+    transition: width 0.4s ease-in-out;
+    width: 100%;
+}
+
+.line_background {
+    background: var(--color_default);
+    grid-area: 2 / 1 / 2 / -1;
+    height: var(--line_width);
+    /* width: 100%; */
+}
+
+.placeholder {
+    color: var(--color_default);
+    grid-area: 1 / 1 / 1 / 1;
+    padding: 5px 10px;
+    padding-left: 0px;
+    pointer-events: none;
+    transition-property: margin-top, font-size;
+    transition: 0.2s ease-in-out;
+}
+:host([_active]) .placeholder {
+    color: var(--color_active);
+    font-size: var(--placeholder_size_active);
+    margin-top: -20px;
+}
+
+.status {
+    align-self: center;
+    pointer-events: none;
+}
+.status::after {
+    font-size: var(--size_status);
+    position: relative;
+}
+:host([_active][_status='true']) .status::after {
+    color: var(--color_active);
+    content: '\2611';
+}
+:host([_status='false']) .status::after {
+    color: var(--color_error);
+    content: '\26A0';
+}
+

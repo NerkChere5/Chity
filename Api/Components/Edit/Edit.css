@@ -1,157 +1,82 @@
-:host {
-    --color_default: #aaa;
-    --color_active: green;
-    --line_width: 2px;
-    --font: 20px 'Arial';
-    --lenght_edit: 250px;
-
-    font: var(--font) !important;
-}
-
+@layer init {
+    :host {
+        --button_size: 20px;
+        --gap: 4px;
+        --icon_color: grey;
+        --icon_hover_color: black;
+        --placeholder_color: silver;
+    }
 
 
+    :host {
+        /* border: 1px solid grey; */
+        border-radius: 4px;
+        box-sizing: border-box;
+        display: inline-block;
+        outline: none !important;
+        padding: 4px;
+        width: 200px;
+    }
 
-x-panel {
-    grid-area: 1 / 1 / 1 / 1;
-    width: var(--lenght_edit);
-}
+    .button {
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: contain;
+        cursor: pointer;
+        display: none;
+        fill: none;
+        height: var(--button_size);
+        stroke: var(--icon_color);
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-width: 1.5;
+        width: var(--button_size);
+    }
+    .button:hover {
+        stroke: var(--icon_hover_color);
+    }
 
+    :host([button_clear][_notEmpty]) .button_clear {
+        display: initial;
+    }
 
-x-panel::part(puck) {
-    background: #2222;
-}
+    :host([button_oversee][cap]) .button_oversee {
+        display: initial;
+    }
 
+    .button_oversee_icon_1 {
+        display: none;
+    }
+    :host([_oversee]) .button_oversee_icon_1 {
+        display: initial;
+    }
 
+    :host([_oversee]) .button_oversee_icon_2 {
+        display: none;
+    }
 
+    .input {
+        border: none;
+        /* border: 1px solid #000; */
+        /* box-sizing: border-box; */
+        color: inherit;
+        font: inherit;
+        outline: none;
+        padding: 0;
+    }
+    .input::placeholder {
+        color: var(--placeholder_color);
+        opacity: 1;
+    }
 
-.body {
-    box-sizing: border-box;
-    display: grid;
-    height: 100%;
-    grid-template: 1 / 2;
-    padding-top: 20px;
-    width: 100%;
-}
-
-
-.input {
-    font: var(--font);
-    outline: none;
-    padding: 5px 20px 5px 0px;
-    width: var(--lenght_edit);
-    white-space:nowrap;
-}
-
-:host([show]) .input {
-    padding-right: 40px;
-}
-
-
-.line {
-    background: var(--color_active);
-    height: var(--line_width) !important;
-    grid-area: 2 / 1 / 2 / 1 !important;
-    transition: 0.4s ease-in-out;
-    transition-property: width;
-    width: 0%;
-}
-
-:host([_active]) .line {
-    width: 100%;
-}
-
-
-.line_error {
-    background: #c80000;
-    height: var(--line_width) !important;
-    grid-area: 2 / 1 / 2 / 1 !important;
-    width: 0%;
-}
-
-:host([_status='false']) .line_error {
-    width: 100%;
-    transition: width 0.4s ease-in-out;
-}
-
-
-.line_background {
-    background: var(--color_default);
-    grid-area: 2 / 1 / 2 / 1 !important;
-    height: var(--line_width) !important;
-    width: 100%;
-}
-
-
-.placeholder {
-    color: var(--color_default);
-    grid-area: 1 / 1 / 1 / 1;
-    padding: 5px 10px;
-    padding-left: 0px;
-    pointer-events: none;
-    transition-property: margin-top, font-size;
-    transition: 0.2s ease-in-out;
-}
-
-:host([_active]) .placeholder {
-    color: var(--color_active);
-    font-size: 14px;
-    margin-top: -20px;
-}
-
-
-.status {
-    grid-area: 1 / 1 / 1 / 1;
-    pointer-events: none;
-}
-
-.status::after {
-    left: 97%;
-    font-size: 16px;
-    position: relative;
-    top: 10%;
-}
-
-:host([_status='false']) .status::after {
-    color: #c80000;
-    content: '\26A0';
-}
-
-:host([_status='true']) .status::after {
-    color: #57b846;
-    content: '\2611';
-}
-
-
-.show_button {
-    display: none;
-}
-
-:host([show_button]) .show_button {
-    color: var(--color_default);
-    cursor: pointer;
-    display: block;
-    grid-area: 1 / 1 / 1 / 1;
-    height: 15px;
-    left: 92%;
-    position: relative;
-    top: 27%;
-    transform: scale(0.8);
-    width: 24px;
-}
-
-:host([show_button]) .show_button:hover {
-    color: #555;
-}
-
-:host([_show]) .show_button {
-    color: #555;
-}
-
-
-.show_button__line_cross {
-    display: none;
-}
-
-:host([_show]) .show_button__line_cross {
-    display: block;
+    .root {
+        align-items: center;
+        box-sizing: border-box;
+        display: grid;
+        gap: var(--gap);
+        grid-auto-columns: auto min-content min-content;
+        grid-auto-flow: column;
+        height: 100%;
+        width: 100%;
+    }
 }

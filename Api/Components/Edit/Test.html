@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+
+
+<html>
+    <head>
+        <meta charset='utf-8'>
+        <title>Edit</title>
+
+        <script type='module' src='./Edit.js'></script>
+
+
+        <style>
+            body {
+                font: 20px 'Arial';
+            }
+
+            .x-edit {
+                /* font: 20px 'Arial'; */
+                /* height: 100px; */
+                /* width: 200px; */
+            }
+            .x-edit[_focused] {
+                border-color: red;
+            }
+        </style>
+
+
+        <script type='module'>
+
+        </script>
+    </head>
+
+
+    <body>
+        <x-edit class='x-edit_' button_clear button_oversee cap='⌚' placeholder='placeholder'></x-edit>
+        <x-edit></x-edit>
+
+        <button class='button_focus'>Focus</button>
+        <button class='button_blur'>Blur</button>
+        <button class='button_randomValue'>Random</button>
+    </body>
+
+
+    <script type='module'>
+        let button_focus = document.querySelector('.button_focus');
+        let button_blur = document.querySelector('.button_blur');
+        let button_randomValue = document.querySelector('.button_randomValue');
+        let edit = document.querySelector('x-edit');
+
+        button_focus.onclick = () => edit.focus();
+        button_blur.onclick = () => edit.blur();
+
+        button_randomValue.onclick = () => edit.value = Math.random();
+
+        // setInterval(() => edit.value = Math.random(), 1e3);
+    </script>
+</html>

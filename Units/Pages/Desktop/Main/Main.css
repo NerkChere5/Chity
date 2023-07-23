@@ -1,0 +1,10 @@
+body {
+    margin: 0;
+}
+
+x-menu {
+    border-bottom: 1px solid #aaa;
+    top: 0;
+    position: sticky;
+    /* box-shadow: 1px 1px 0px #000d; */
+}
