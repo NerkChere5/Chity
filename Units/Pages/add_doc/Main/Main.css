@@ -1,0 +1,81 @@
+body {
+    margin: 0;
+}
+
+x-menu {
+    border-bottom: 1px solid #aaa;
+    top: 0;
+    position: sticky;
+    background:#b5a7ff;
+    height: 60px;
+    /* box-shadow: 1px 1px 0px #000d; */
+}
+
+x-field {
+    --color_active: blue;
+}
+
+
+.content {
+    padding: 20px;
+}
+
+.submit {
+    background: blue;
+    color: #fff;
+    border-radius: 99px;
+    width: 100px;
+    cursor: pointer;
+    /* height: 50px; */
+    font: 22px 'Arial';
+    text-align: center;
+    padding: 20px;
+    border: 1px solid blue;
+    box-shadow: 3px 4px 7px 2px #403e3e5c;
+}
+
+.submit:hover {
+    color: #504e4e;
+    background: #ffea7c;
+    border: 1px solid #504e4e;
+}
+
+.submit:active {
+    border: 1px solid #fff;
+    box-shadow: none;
+}
+
+
+.num::before {
+    content: 'Номер документа: ';
+}
+
+
+.type::before {
+    content: 'Тип документа: ';
+}
+
+
+.organ::before {
+    content: 'Орган, принявший документ: ';
+}
+
+
+.name::before {
+    content: 'Название документа: ';
+}
+
+
+.num_public::before {
+    content: 'Номер публикации: ';
+}
+
+
+.date_public::before {
+    content: 'Дата публикации: ';
+}
+
+
+.csv::before {
+    content: 'CSV: ';
+}

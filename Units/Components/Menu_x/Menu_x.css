@@ -1,21 +1,13 @@
 :host {
-  display: contents !important;
+    display: contents !important;
 }
 
 
-
-
 x-menu {
-  --burger__color: #fff;
-  --menu__category_item__color: #fff;
-  --menu_list__background: #020c22;
-  --padding: 20px;
-  --sub_menu__background: #020c22;
-  --underline__color: #707e9c;
-  
-  background: #020c22;
-  border-bottom: 2px solid var(--underline__color);
-  color: #fff;
-  font: 14px 'Arial';
-  z-index: 1;
+    border-bottom: 1px solid #aaa;
+    top: 0;
+    position: sticky;
+    background:#b5a7ff;
+    height: 60px;
+    /* box-shadow: 1px 1px 0px #000d; */
 }

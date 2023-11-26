@@ -152,13 +152,16 @@ async function _on_pointerDown(event) {
 
     if (!status) return;
 
-    answer = await docs_preprocessor.search_docs(...edits)
+    answer = await docs_preprocessor.add_doc(...edits)
 
-    answer.length ? show_answer() : show_error();
+    if (!answer) {
+        nav_list.innerHTML = '<p><i>Неверные исходные данные или такой документ уже существует</i></p>';
+    }
+    else show_answer();
 }
 
 function show_answer() {
-    nav_list.innerHTML = `<p><i>Найдено ${answer.length} результатов</i></p>`;
+    nav_list.innerHTML = `Документ добавлен`;
 
     for (let item of answer) {
         let container = document.createElement('div');
@@ -174,10 +177,6 @@ function show_answer() {
 
         nav_list.append(container);
     }
-}
-
-function show_error() {
-    nav_list.innerHTML = '<p><i>Ничего не найдено. Проверьте правильность заполнения полей и повторите попытку.</i></p>';
 }
 
 
