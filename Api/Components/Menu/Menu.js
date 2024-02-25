@@ -4,7 +4,7 @@
 import {Component} from '../Component.js';
 
 
-class Menu extends Component {
+export class Menu extends Component {
     static _url = import.meta.url;
 
 
